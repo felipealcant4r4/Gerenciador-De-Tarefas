@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Listagem de Responsáveis</title>
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+		crossorigin="anonymous" />
+
+</h:head>
+<h:body>
+	<header>
+		<div class="dropdown">
+			<button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+				Gerenciador de Tarefas
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+				<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-tarefas" value="Listar tarefas" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-tarefa" value="Cadastrar tarefa" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-niveis" value="Listar niveis" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-nivel" value="Cadastrar nivel" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-responsaveis" value="Listar responsaveis" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-responsavel" value="Cadastrar responsavel" /></li>
+			</ul>
+		</div>
+	</header>
+	<div class="container ms-0 pt-5">
+	<c:if test="${not empty usuarioMbean.mensagensErro}">
+			<ui:repeat var="mensagem" value="#{usuarioMbean.mensagensErro}">
+				<div class="alert alert-danger" role="alert">
+					<h:outputText value="#{mensagem}" />
+				</div>
+			</ui:repeat>
+		</c:if>
+	<h3>Listagem de responsaveis disponiveis</h3>
+	<h:form>
+		<table class="table mt-5">
+				<thead class="table-dark">
+					<th>Nome</th>
+					<th>Sobrenome</th>
+					<th>Cpf</th>
+					<th>Ações</th>
+				</thead>
+				<tbody>
+					<ui:repeat var="usuario" value="#{usuarioMbean.listaUsuarios}">
+						<tr>
+							<td><h:outputText value="#{usuario.nome}" /></td>
+							<td><h:outputText value="#{usuario.sobrenome}" /></td>
+							<td><h:outputText value="#{usuario.cpf}" /></td>
+							<td>
+							<h:commandButton value="Atualizar" action="#{usuarioMbean.editar(usuario.id)}" />
+							<h:commandButton value="Apagar" action="#{usuarioMbean.apagar(usuario.id)}"/></td>
+						</tr>
+					</ui:repeat>
+				</tbody>
+			</table>
+		
+	</h:form>
+</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+</h:body>
+</html>

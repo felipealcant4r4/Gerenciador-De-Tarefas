@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Editar Tarefa</title>
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+		crossorigin="anonymous" />
+
+</h:head>
+<h:body>
+	<header>
+		<div class="dropdown">
+			<button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+				Gerenciador de Tarefas
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+				<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-tarefas" value="Listar tarefas" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-tarefa" value="Cadastrar tarefa" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-niveis" value="Listar niveis" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-nivel" value="Cadastrar nivel" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="listar-responsaveis" value="Listar responsaveis" /></li>
+<li class="nav-item"><h:link styleClass="dropdown-item link-dark" outcome="cadastrar-responsavel" value="Cadastrar responsavel" /></li>
+			</ul>
+		</div>
+	</header>
+	<div class="container ms-0 pt-5">
+		<c:if test="${not empty tarefaMbean.mensagensErro}">
+			<ui:repeat var="mensagem" value="#{tarefaMbean.mensagensErro}">
+				<div class="alert alert-danger" role="alert">
+					<h:outputText value="#{mensagem}" />
+				</div>
+			</ui:repeat>
+		</c:if>
+		<h3>Editar tarefa</h3>
+		<h:form>
+			<div class="row">
+				<div class="col-8">
+					<div class="mb-3">
+						<label for="input-titulo" class="form-label">Título:</label>
+						<h:inputText id="input-titulo"
+							value="#{tarefaMbean.tarefa.titulo}" styleClass="form-control" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-8">
+					<div class="mb-3">
+						<label for="input-decricao" class="form-label">Descrição:</label>
+						<h:inputTextarea id="input-descricao" styleClass="form-control"
+							value="#{tarefaMbean.tarefa.descricao}" />
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-4">
+					<div class="mb-3">
+						<label for="input-responsavel" class="form-label">Responsável:</label>
+						<h:selectOneMenu id="input-responsavel" styleClass="form-control"
+							value="#{tarefaMbean.tarefa.usuario.id}" >
+						<f:selectItems value="#{usuarioMbean.listaUsuarios}" var="usuario"
+							itemLabel="#{usuario.nome}" itemValue="#{usuario.id}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+
+				<div class="col-4">
+					<div class="mb-3">
+						<label for="input-prioridade" class="form-label">Prioridade:</label>
+						<h:selectOneMenu id="input-prioridade" styleClass="form-control"
+							value="#{tarefaMbean.tarefa.nivelPrioridade.id}">
+							<f:selectItems value="#{nivelPrioridadeMbean.listaNiveis}"
+								var="nivel" itemLabel="#{nivel.descricao}"
+								itemValue="#{nivel.id}" />
+						</h:selectOneMenu>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-8">
+					<div class="mb-3">
+						<label for="input-deadline" class="form-label">Deadline:</label>
+						<h:inputText id="input-deadline"
+							styleClass="form-control format-date"
+							 value="#{tarefaMbean.deadlineString}" maxlength="10" />
+					</div>
+				</div>
+			</div>
+			<h:commandButton class="btn btn-primary" value="Salvar"
+				action="#{tarefaMbean.atualizar(tarefaMbean.tarefa.id)}" />
+		</h:form>
+
+	</div>
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+		crossorigin="anonymous"></script>
+	<script src="scripts/mask.js"></script>
+</h:body>
+</html>
